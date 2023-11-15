@@ -1,25 +1,23 @@
 package googleSearch;
 
-import base.BaseTest;
-import gui.browser.BrowserActions;
+import gui.browser.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
-public class GoogleSearch extends BaseTest {
+public class GoogleSearch {
 
-    BrowserActions browserActions = new BrowserActions();
+    DriverManager driverManager = new DriverManager();
 
     @Test
     public void googleSearch() {
 
-        browserActions.navigateToUrl(driver, "https://www.google.com/");
 
-        WebElement searchBox = driver.findElement(By.name("q"));
+        driverManager.actions().browser().navigateToUrl("https://www.google.com.eg/");
+        driverManager.actions().element().type(By.name("q"), "Selenium");
+        driverManager.getDriver().findElement(By.name("q")).sendKeys(Keys.ENTER);
 
-        searchBox.sendKeys("Selenium");
-        searchBox.sendKeys(Keys.ENTER);
+        driverManager.quitDriver();
     }
 
 }

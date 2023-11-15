@@ -1,17 +1,24 @@
 package gui.browser;
 
-import utlis.ReadPropertiesFile;
+import gui.ActionsWrapper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class DriverManger {
+import utlis.ReadPropertiesFile;
 
-    WebDriver driver;
+public class DriverManager {
 
-    public WebDriver initializeDriver() {
+    private WebDriver driver;
+    private ActionsWrapper actions;
 
+    public DriverManager() {
+        initializeDriver();
+        initializeActions();
+    }
+
+    private void initializeDriver() {
         ReadPropertiesFile readPropertiesFile = new ReadPropertiesFile("src/main/resources/properties/Web.properties");
 
         String browser = readPropertiesFile.getBrowserType();
@@ -31,9 +38,23 @@ public class DriverManger {
             default:
                 throw new IllegalArgumentException("Invalid browser name: " + browser);
         }
+    }
 
-        driver.manage().window().fullscreen();
+    private void initializeActions() {
+        actions = new ActionsWrapper(driver);
+    }
+
+    public WebDriver getDriver() {
         return driver;
     }
 
+    public ActionsWrapper actions() {
+        return actions;
+    }
+
+    public void quitDriver() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 }

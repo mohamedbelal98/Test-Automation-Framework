@@ -6,10 +6,17 @@ import org.testng.Assert;
 
 public class BrowserActions {
 
-    public void navigateToUrl(WebDriver driver, String url) {
+    WebDriver driver;
+
+    public BrowserActions(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public WebDriver navigateToUrl(String url) {
 
         driver.navigate().to(url);
         Assert.assertEquals(driver.getCurrentUrl(), url);
+        return driver;
     }
 
 }

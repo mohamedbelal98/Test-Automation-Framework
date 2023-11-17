@@ -12,6 +12,12 @@ public class BrowserActions {
         this.driver = driver;
     }
 
+    /**
+     * Navigates the web browser to the specified URL and asserts that the current URL matches the expected URL.
+     *
+     * @param url The URL to navigate to.
+     * @return Returns the current instance of the WebDriver.
+     */
     public WebDriver navigateToUrl(String url) {
 
         driver.navigate().to(url);

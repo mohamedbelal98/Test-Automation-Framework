@@ -23,8 +23,6 @@ public class DriverManager {
 
         String browser = readPropertiesFile.getBrowserType();
 
-        System.out.println(browser);
-
         switch (browser) {
             case "chrome":
                 driver = new ChromeDriver();
@@ -41,7 +39,8 @@ public class DriverManager {
     }
 
     private void initializeActions() {
-        actions = new ActionsWrapper(driver);
+        actions = ActionsWrapper.getInstance(driver);
+        System.out.println("#########################################################");
     }
 
     public WebDriver getDriver() {

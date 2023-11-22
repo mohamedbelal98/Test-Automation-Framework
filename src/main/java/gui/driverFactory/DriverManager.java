@@ -1,5 +1,6 @@
-package gui.browser;
+package gui.driverFactory;
 
+import gui.browser.BrowserActions;
 import gui.elements.ElementActions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -33,6 +34,13 @@ public class DriverManager {
         return instance;
     }
 
+    /**
+     * Initializes the Selenium WebDriver based on the browser type specified in the properties file.
+     * Reads the browser type from the properties file and creates the corresponding WebDriver instance.
+     * Supports Chrome, Firefox, and Edge browsers.
+     *
+     * @throws IllegalArgumentException If an invalid browser name is provided in the properties file.
+     */
     private void initializeDriver() {
         ReadPropertiesFile readPropertiesFile = new ReadPropertiesFile("src/main/resources/properties/Web.properties");
 

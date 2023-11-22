@@ -12,10 +12,10 @@ public class GoogleSearch {
     @Test
     public void googleSearch() {
 
-        driverManager.actions().browser().navigateToUrl("https://www.google.com.eg/");
-        driverManager.actions().element().type(By.name("q"), "Selenium");
+        driverManager.browser().navigateToUrl("https://www.google.com.eg/");
+        driverManager.element().type(By.name("q"), "Selenium");
         driverManager.getDriver().findElement(By.name("q")).sendKeys(Keys.ENTER);
-        driverManager.actions().element().
+        driverManager.element().
                 click(By.xpath("(//span[contains(text(), 'Selenium')])[1]"));
 
         driverManager.quitDriver();

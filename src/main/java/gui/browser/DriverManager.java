@@ -1,6 +1,6 @@
 package gui.browser;
 
-import gui.ActionsWrapper;
+import gui.elements.ElementActions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -10,12 +10,27 @@ import utlis.ReadPropertiesFile;
 
 public class DriverManager {
 
+    private static DriverManager instance;
     private WebDriver driver;
-    private ActionsWrapper actions;
+    private BrowserActions browserActions;
+    private ElementActions elementActions;
 
+    // Private constructor to prevent instantiation outside the class
     public DriverManager() {
         initializeDriver();
         initializeActions();
+    }
+
+    // Public method to get the singleton instance
+    public static DriverManager getInstance() {
+        if (instance == null) {
+            synchronized (DriverManager.class) {
+                if (instance == null) {
+                    instance = new DriverManager();
+                }
+            }
+        }
+        return instance;
     }
 
     private void initializeDriver() {
@@ -39,16 +54,20 @@ public class DriverManager {
     }
 
     private void initializeActions() {
-        actions = ActionsWrapper.getInstance(driver);
-        System.out.println("#########################################################");
+        browserActions = new BrowserActions(driver);
+        elementActions = new ElementActions(driver);
     }
 
     public WebDriver getDriver() {
         return driver;
     }
 
-    public ActionsWrapper actions() {
-        return actions;
+    public BrowserActions browser() {
+        return browserActions;
+    }
+
+    public ElementActions element() {
+        return elementActions;
     }
 
     public void quitDriver() {

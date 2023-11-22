@@ -12,18 +12,19 @@ public class TestWebDriverUniversity {
     @Test
     public void testContactUs() {
 
-        driverManager.actions().browser().navigateToUrl("https://webdriveruniversity.com/");
+        driverManager.browser().navigateToUrl("https://webdriveruniversity.com/");
 
-        driverManager.actions().element().click(By.id("contact-us"));
+        driverManager.element().click(By.id("contact-us"));
 
-        driverManager.actions().browser().switchToWindow("WebDriver | Contact Us");
+        driverManager.browser().switchToWindow("WebDriver | Contact Us");
 
-        driverManager.actions().element().type(By.name("first_name"), "Mohamed");
-        driverManager.actions().element().type(By.name("last_name"), "Belal");
-        driverManager.actions().element().type(By.name("email"), "mohamed@gmail.com");
-        driverManager.actions().element().type(By.name("message"), "Random Message");
-        driverManager.actions().element().click( By.xpath("//input[contains(@type,'submit')]"));
+        driverManager.element().type(By.name("first_name"), "Mohamed");
+        driverManager.element().type(By.name("last_name"), "Belal");
+        driverManager.element().type(By.name("email"), "mohamed@gmail.com");
+        driverManager.element().type(By.name("message"), "Random Message");
+        driverManager.element().click(By.xpath("//input[contains(@type,'submit')]"));
 
+        driverManager.quitDriver();
 
     }
 

@@ -26,6 +26,12 @@ public class BrowserActions {
         Assert.assertEquals(driver.getCurrentUrl(), url);
     }
 
+    /**
+     * Switches to a browser window based on its title.
+     *
+     * @param windowsTitle The title of the window to switch to.
+     * @throws NoSuchElementException If the window with the specified title is not found.
+     */
     public void switchToWindow(String windowsTitle) {
 
         Set<String> windows = driver.getWindowHandles();

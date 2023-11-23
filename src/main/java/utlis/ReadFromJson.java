@@ -20,15 +20,21 @@ public class ReadFromJson {
 
         try {
             JsonNode rootNode = objectMapper.readTree(new File(filePath));
-            JsonNode valueNode = rootNode.findValue(key);
+            String[] keys = key.split("\\.");
 
-//            return (valueNode != null) ? valueNode.asText() : null;
-            if (valueNode != null) {
+            JsonNode valueNode = rootNode;
+
+            for (String k : keys) {
+                valueNode = valueNode.path(k);
+            }
+
+            if (!valueNode.isMissingNode()) {
                 return valueNode.asText();
             } else {
                 System.out.println("Key not found in the JSON file: " + key);
                 return null;
             }
+
         } catch (IOException e) {
             e.printStackTrace();
             return null;

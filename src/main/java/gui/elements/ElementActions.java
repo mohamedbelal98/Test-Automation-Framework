@@ -1,15 +1,21 @@
 package gui.elements;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import utlis.Waits;
 
 
 public class ElementActions {
+
     WebDriver driver;
+    Actions actions;
 
     public ElementActions(WebDriver driver) {
         this.driver = driver;
+        actions = new Actions(driver);
     }
 
     //************** Elements Actions ************//
@@ -39,6 +45,19 @@ public class ElementActions {
             e.printStackTrace();
             System.out.println("This By element" + element + "is not clickable");
         }
+    }
+
+
+    //************** Keyboard Actions ************//
+
+    /**
+     * Presses the Enter key on the specified WebElement identified by the given By selector.
+     *
+     * @param element The By selector identifying the WebElement on which to perform the action.
+     */
+    public void pressEnter(By element) {
+        WebElement webElement = driver.findElement(element);
+        actions.sendKeys(webElement, Keys.ENTER).perform();
     }
 
 }

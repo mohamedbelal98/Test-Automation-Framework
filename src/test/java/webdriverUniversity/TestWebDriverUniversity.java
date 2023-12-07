@@ -2,6 +2,7 @@ package webdriverUniversity;
 
 import gui.driverFactory.DriverManager;
 import org.openqa.selenium.By;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import utlis.ReadFromJson;
@@ -35,5 +36,21 @@ public class TestWebDriverUniversity {
         driverManager.quitDriver();
     }
 
+    @Test
+    public void testToDoList() {
+
+        driverManager.element().click(By.id("to-do-list"));
+
+        driverManager.browser().switchToWindow("WebDriver | To Do List");
+
+        driverManager.element().type(By.xpath("//input[@type='text']"), "New Item to list");
+        driverManager.element().pressEnter(By.xpath("//input[@type='text']"));
+
+    }
+
+    @AfterTest
+    public void tearDown() {
+        driverManager.quitDriver();
+    }
 
 }

@@ -3,6 +3,7 @@ package googleSearch;
 import gui.driverFactory.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import utlis.ReadFromJson;
@@ -26,6 +27,11 @@ public class TestGoogleSearch {
         driverManager.element().
                 click(By.xpath("(//span[contains(text(), 'Selenium')])[1]"));
 
+        driverManager.quitDriver();
+    }
+
+    @AfterTest
+    public void tearDown() {
         driverManager.quitDriver();
     }
 

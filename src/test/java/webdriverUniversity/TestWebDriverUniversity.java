@@ -2,19 +2,19 @@ package webdriverUniversity;
 
 import gui.driverFactory.DriverManager;
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 import org.testng.annotations.Test;
 import utlis.ReadFromJson;
 
 
 public class TestWebDriverUniversity {
 
-    DriverManager driverManager = new DriverManager();
+    DriverManager driverManager;
     ReadFromJson readFromJson;
 
-    @BeforeTest
-    public void beforeTest() {
+    @BeforeMethod
+    public void beforeMethod() {
+        driverManager = new DriverManager();
         driverManager.browser().navigateToUrl("https://webdriveruniversity.com/");
         readFromJson = new ReadFromJson("src/test/resources/webDriverUniversityData.json");
     }
@@ -48,7 +48,7 @@ public class TestWebDriverUniversity {
 
     }
 
-    @AfterTest
+    @AfterMethod
     public void tearDown() {
         driverManager.quitDriver();
     }

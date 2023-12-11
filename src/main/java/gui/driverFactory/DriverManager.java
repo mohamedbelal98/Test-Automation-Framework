@@ -11,8 +11,7 @@ import utlis.ReadPropertiesFile;
 
 public class DriverManager {
 
-    private static DriverManager instance;
-    private WebDriver driver;
+    private static final ThreadLocal<WebDriver> driverThreadLocal = new ThreadLocal<>();
     private BrowserActions browserActions;
     private ElementActions elementActions;
 
@@ -20,18 +19,6 @@ public class DriverManager {
     public DriverManager() {
         initializeDriver();
         initializeActions();
-    }
-
-    // Public method to get the singleton instance
-    public static DriverManager getInstance() {
-        if (instance == null) {
-            synchronized (DriverManager.class) {
-                if (instance == null) {
-                    instance = new DriverManager();
-                }
-            }
-        }
-        return instance;
     }
 
     /**
@@ -48,13 +35,13 @@ public class DriverManager {
 
         switch (browser) {
             case "chrome":
-                driver = new ChromeDriver();
+                driverThreadLocal.set(new ChromeDriver());
                 break;
             case "firefox":
-                driver = new FirefoxDriver();
+                driverThreadLocal.set(new FirefoxDriver());
                 break;
             case "edge":
-                driver = new EdgeDriver();
+                driverThreadLocal.set(new EdgeDriver());
                 break;
             default:
                 throw new IllegalArgumentException("Invalid browser name: " + browser);
@@ -62,12 +49,12 @@ public class DriverManager {
     }
 
     private void initializeActions() {
-        browserActions = new BrowserActions(driver);
-        elementActions = new ElementActions(driver);
+        browserActions = new BrowserActions(driverThreadLocal.get());
+        elementActions = new ElementActions(driverThreadLocal.get());
     }
 
     public WebDriver getDriver() {
-        return driver;
+        return driverThreadLocal.get();
     }
 
     public BrowserActions browser() {
@@ -79,8 +66,10 @@ public class DriverManager {
     }
 
     public void quitDriver() {
+        WebDriver driver = driverThreadLocal.get();
         if (driver != null) {
             driver.quit();
         }
     }
+
 }

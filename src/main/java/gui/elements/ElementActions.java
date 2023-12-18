@@ -1,10 +1,9 @@
 package gui.elements;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.fasterxml.jackson.core.io.NumberOutput;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import utlis.Waits;
 
 
@@ -18,7 +17,7 @@ public class ElementActions {
         actions = new Actions(driver);
     }
 
-    //************** Elements Actions ************//
+    //******************* Elements Actions *******************//
 
     /**
      * @param element Select the web element to type text into.
@@ -26,7 +25,7 @@ public class ElementActions {
      */
     public void type(By element, String text) {
 
-        driver.findElement(element).clear();
+        clear(element);
         driver.findElement(element).sendKeys(text);
     }
 
@@ -47,8 +46,51 @@ public class ElementActions {
         }
     }
 
+    /**
+     * Clears the content of the specified element and asserts that it is empty afterward.
+     *
+     * @param element The By locator of the element to be cleared.
+     */
+    public void clear(By element) {
 
-    //************** Keyboard Actions ************//
+        String textBeforeCheckIsEmpty = driver.findElement(element).getText();
+
+        if (textBeforeCheckIsEmpty.isEmpty()) {
+            driver.findElement(element).clear();
+        }
+
+        String textAfterCheckIsEmpty = driver.findElement(element).getText();
+        Assert.assertTrue(textAfterCheckIsEmpty.isEmpty(),
+                "The element is not clear. It contains text : " + textAfterCheckIsEmpty);
+    }
+
+    /**
+     * Gets the text content of the specified web element.
+     *
+     * @param element The By locator of the web element.
+     * @return The text content of the web element, or null if the element is not found or has no text.
+     */
+    public String getText(By element) {
+
+        try {
+            String text = driver.findElement(element).getText();
+
+            if (!text.isEmpty()) {
+                return text;
+            } else {
+                System.out.println("This element is empty:" + element);
+                return null;
+            }
+        } catch (NoSuchElementException e) {
+            System.out.println("Element not found : " + element);
+            return null;
+        } catch (Exception e) {
+            System.out.println("An error occurred while getting text: " + e.getMessage());
+            return null;
+        }
+    }
+
+    //******************* Keyboard Actions *******************//
 
     /**
      * Presses the Enter key on the specified WebElement identified by the given By selector.

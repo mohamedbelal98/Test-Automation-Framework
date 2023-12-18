@@ -2,7 +2,6 @@ package googleSearch;
 
 import gui.driverFactory.DriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -23,7 +22,7 @@ public class TestGoogleSearch {
     public void googleSearch() {
 
         driverManager.element().type(By.name("q"), readFromJson.getDataFromJson("Key"));
-        driverManager.getDriver().findElement(By.name("q")).sendKeys(Keys.ENTER);
+        driverManager.element().pressEnter(By.name("q"));
         driverManager.element().
                 click(By.xpath("(//span[contains(text(), 'Selenium')])[1]"));
 

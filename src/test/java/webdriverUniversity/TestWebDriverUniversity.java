@@ -2,9 +2,13 @@ package webdriverUniversity;
 
 import gui.driverFactory.DriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.*;
 import org.testng.annotations.Test;
 import utlis.ReadFromJson;
+import utlis.Waits;
+
+import static org.testng.Assert.*;
 
 
 public class TestWebDriverUniversity {
@@ -46,6 +50,28 @@ public class TestWebDriverUniversity {
         driverManager.element().type(By.xpath("//input[@type='text']"), "New Item to list");
         driverManager.element().pressEnter(By.xpath("//input[@type='text']"));
 
+    }
+
+    @Test
+    public void testClickAccordionLink() {
+
+        driverManager.element().click(By.xpath("//h1[contains(text(), 'ACCORDION & TEXT AFFECTS (APPEAR & DISAPPEAR)' )]/parent::div"));
+
+        driverManager.browser().switchToWindow("Accordion Items");
+
+        driverManager.element().click(By.id("manual-testing-accordion"));
+        driverManager.element().click(By.id("cucumber-accordion"));
+        driverManager.element().click(By.id("automation-accordion"));
+
+        WebElement webElement = driverManager.getDriver().findElement(By.id("hidden-text"));
+
+        Waits.waitStrategyTextPresent(driverManager.getDriver(), webElement,
+                "LOADING COMPLETE.", 20);
+
+        driverManager.element().click(By.id("click-accordion"));
+
+        assertEquals(driverManager.element().getText(By.id("timeout")),
+                "This text has appeared after 5 seconds!");
     }
 
     @AfterMethod

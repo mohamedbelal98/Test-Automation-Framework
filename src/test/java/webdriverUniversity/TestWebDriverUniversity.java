@@ -3,10 +3,13 @@ package webdriverUniversity;
 import gui.driverFactory.DriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.*;
 import org.testng.annotations.Test;
 import utlis.ReadFromJson;
 import utlis.Waits;
+
+import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -49,6 +52,14 @@ public class TestWebDriverUniversity {
 
         driverManager.element().type(By.xpath("//input[@type='text']"), "New Item to list");
         driverManager.element().pressEnter(By.xpath("//input[@type='text']"));
+
+        List<WebElement> list = driverManager.getDriver().findElements( By.xpath("//*[@id='container']/ul/child::li/span/i"));
+        Actions actions = new Actions(driverManager.getDriver());
+        System.out.println(list.size());
+
+        for (WebElement webElement : list){
+            actions.moveToElement(webElement).click().perform();
+        }
 
     }
 

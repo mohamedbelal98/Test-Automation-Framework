@@ -20,4 +20,5 @@ public class ReadPropertiesFile {
     public String getBrowserType() {
         return properties.getProperty("browserType");
     }
+
 }

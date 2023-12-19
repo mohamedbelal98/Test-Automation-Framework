@@ -1,6 +1,5 @@
 package gui.browser;
 
-
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
@@ -23,6 +22,7 @@ public class BrowserActions {
     public void navigateToUrl(String url) {
 
         driver.navigate().to(url);
+        driver.manage().window().maximize();
         Assert.assertEquals(driver.getCurrentUrl(), url);
     }
 
@@ -43,7 +43,6 @@ public class BrowserActions {
             }
         }
         throw new NoSuchElementException("Windows with title : " + windowsTitle + "not found");
-
     }
 
 }

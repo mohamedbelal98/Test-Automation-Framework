@@ -31,7 +31,7 @@ public class ElementActions {
         } catch (NoSuchElementException e) {
             System.out.println("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("An error occurred while trying to type: " + e.getMessage());
+            System.out.println("An error occurred while trying to type : " + e.getMessage());
         }
 
     }
@@ -51,7 +51,7 @@ public class ElementActions {
         } catch (NoSuchElementException e) {
             System.out.println("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("This By element" + element + "is not clickable");
+            System.out.println("This By element " + element + " is not clickable : " + e.getMessage());
         }
 
     }
@@ -95,14 +95,14 @@ public class ElementActions {
             if (!text.isEmpty()) {
                 return text;
             } else {
-                System.out.println("This element is empty:" + element);
+                System.out.println("This element is empty : " + element);
                 return null;
             }
         } catch (NoSuchElementException e) {
             System.out.println("Element not found : " + element);
             return null;
         } catch (Exception e) {
-            System.out.println("An error occurred while getting text: " + e.getMessage());
+            System.out.println("An error occurred while getting text : " + e.getMessage());
             return null;
         }
 
@@ -120,13 +120,53 @@ public class ElementActions {
             ElementActionsHelper.dragAndDrop(driver, dragElement, dropElement);
         } catch (NoSuchElementException e) {
             if (e.getMessage().contains("Unable to locate element")) {
-                System.out.println("Element not found: (" + (dragElement + " or " + dropElement) + ") Unknown Locator");
+                System.out.println("Element not found : ( " + (dragElement + " or " + dropElement) + " ) Unknown Locator");
                 Assert.fail();
             } else {
-                System.out.println("An error occurred while trying to drag and drop elements: " + e.getMessage());
+                System.out.println("An error occurred while trying to drag and drop elements : " + e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage());
+            System.out.println("An unexpected error occurred : " + e.getMessage());
+        }
+
+    }
+
+    /**
+     * Attempts to perform a double click action on the specified web element using the ElementActionsHelper.
+     * Handles cases where the element is not found or if an unexpected error occurs during the operation.
+     *
+     * @param element The By locator of the web element to be double-clicked.
+     */
+    public void doubleClick(By element) {
+
+        try {
+            ElementActionsHelper.doubleClick(driver, element);
+        } catch (NoSuchElementException e) {
+            System.out.println("This element is empty : " + element);
+        } catch (Exception e) {
+            System.out.println("An error occurred while trying to double click on element : " + e.getMessage());
+        }
+
+    }
+
+    /**
+     * Attempts to get the value of the specified attribute from the given web element.
+     * Handles cases where the element is not found or if an unexpected error occurs during the operation.
+     *
+     * @param element       The By locator of the web element.
+     * @param attributeName The name of the attribute whose value is to be retrieved.
+     * @return The value of the specified attribute, or null if the element is not found or an error occurs.
+     */
+    public String getAttribute(By element, String attributeName) {
+
+        try {
+            return driver.findElement(element).getAttribute(attributeName);
+        } catch (NoSuchElementException e) {
+            System.out.println("This element is empty : " + element);
+            return null;
+        } catch (Exception e) {
+            System.out.println("An error occurred while trying to get Attribute : " + e.getMessage());
+            return null;
         }
 
     }
@@ -146,7 +186,7 @@ public class ElementActions {
         } catch (NoSuchElementException e) {
             System.out.println("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("An error occurred while trying to click enter: " + e.getMessage());
+            System.out.println("An error occurred while trying to click enter : " + e.getMessage());
         }
 
     }

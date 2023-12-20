@@ -96,6 +96,10 @@ public class TestWebDriverUniversity {
         assertEquals(driverManager.element().getText(By.xpath("//div[@id='droppable']/p/child::b"))
                 , "Dropped!");
 
+        driverManager.element().doubleClick(By.id("double-click"));
+        assertEquals(driverManager.element().getAttribute(By.id("double-click"), "class"),
+                "div-double-click double", "Error in double click button");
+
     }
 
     @AfterMethod

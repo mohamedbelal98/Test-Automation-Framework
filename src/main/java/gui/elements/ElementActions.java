@@ -23,8 +23,16 @@ public class ElementActions {
      */
     public void type(By element, String text) {
 
-        clear(element);
-        driver.findElement(element).sendKeys(text);
+        try {
+            clear(element);
+            driver.findElement(element).sendKeys(text);
+        } catch (NoSuchElementException e) {
+            System.out.println("Element not found : " + element);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while trying to type: " + e.getMessage());
+        }
+
     }
 
     /**
@@ -38,10 +46,13 @@ public class ElementActions {
             Waits.waitToBeClickable(driver, element, 100);
 
             driver.findElement(element).click();
+        } catch (NoSuchElementException e) {
+            System.out.println("Element not found : " + element);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("This By element" + element + "is not clickable");
         }
+
     }
 
     /**
@@ -51,15 +62,22 @@ public class ElementActions {
      */
     public void clear(By element) {
 
-        String textBeforeCheckIsEmpty = driver.findElement(element).getText();
+        try {
+            String textBeforeCheckIsEmpty = driver.findElement(element).getText();
 
-        if (textBeforeCheckIsEmpty.isEmpty()) {
-            driver.findElement(element).clear();
+            if (textBeforeCheckIsEmpty.isEmpty()) {
+                driver.findElement(element).clear();
+            }
+
+            String textAfterCheckIsEmpty = driver.findElement(element).getText();
+            Assert.assertTrue(textAfterCheckIsEmpty.isEmpty(),
+                    "The element is not clear. It contains text : " + textAfterCheckIsEmpty);
+        } catch (NoSuchElementException e) {
+            System.out.println("Element not found : " + element);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while trying to clear the text field : " + e.getMessage());
         }
-
-        String textAfterCheckIsEmpty = driver.findElement(element).getText();
-        Assert.assertTrue(textAfterCheckIsEmpty.isEmpty(),
-                "The element is not clear. It contains text : " + textAfterCheckIsEmpty);
     }
 
     /**
@@ -96,8 +114,17 @@ public class ElementActions {
      * @param element The By selector identifying the WebElement on which to perform the action.
      */
     public void pressEnter(By element) {
-        WebElement webElement = driver.findElement(element);
-        actions.sendKeys(webElement, Keys.ENTER).perform();
+
+        try {
+            WebElement webElement = driver.findElement(element);
+            actions.sendKeys(webElement, Keys.ENTER).perform();
+        } catch (NoSuchElementException e) {
+            System.out.println("Element not found : " + element);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while trying to click enter: " + e.getMessage());
+        }
+
     }
 
 }

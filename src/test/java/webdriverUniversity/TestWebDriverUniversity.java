@@ -53,11 +53,11 @@ public class TestWebDriverUniversity {
         driverManager.element().type(By.xpath("//input[@type='text']"), "New Item to list");
         driverManager.element().pressEnter(By.xpath("//input[@type='text']"));
 
-        List<WebElement> list = driverManager.getDriver().findElements( By.xpath("//*[@id='container']/ul/child::li/span/i"));
+        List<WebElement> list = driverManager.getDriver().findElements(By.xpath("//*[@id='container']/ul/child::li/span/i"));
         Actions actions = new Actions(driverManager.getDriver());
         System.out.println(list.size());
 
-        for (WebElement webElement : list){
+        for (WebElement webElement : list) {
             actions.moveToElement(webElement).click().perform();
         }
 
@@ -83,6 +83,19 @@ public class TestWebDriverUniversity {
 
         assertEquals(driverManager.element().getText(By.id("timeout")),
                 "This text has appeared after 5 seconds!");
+    }
+
+    @Test
+    public void testActions() {
+
+        driverManager.element().click(By.id("actions"));
+
+        driverManager.browser().switchToWindow("WebDriver | Actions");
+
+        driverManager.element().dragAndDrop(By.id("draggable"), By.id("droppable"));
+        assertEquals(driverManager.element().getText(By.xpath("//div[@id='droppable']/p/child::b"))
+                , "Dropped!");
+
     }
 
     @AfterMethod

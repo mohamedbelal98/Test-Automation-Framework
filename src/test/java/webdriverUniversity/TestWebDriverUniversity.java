@@ -92,19 +92,26 @@ public class TestWebDriverUniversity {
 
         driverManager.browser().switchToWindow("WebDriver | Actions");
 
+        //Test drag and drop.
         driverManager.element().dragAndDrop(By.id("draggable"), By.id("droppable"));
         assertEquals(driverManager.element().getText(By.xpath("//div[@id='droppable']/p/child::b"))
                 , "Dropped!");
 
+        //Test double-click.
         driverManager.element().doubleClick(By.id("double-click"));
         assertEquals(driverManager.element().getAttribute(By.id("double-click"), "class"),
                 "div-double-click double", "Error in double click button");
 
+        //Test click and hold.
+        driverManager.element().clickAndHold(By.id("click-box"));
+        assertEquals(driverManager.element().getText(By.id("click-box")),
+                "Well done! keep holding that click now.....", "Error on click and hold");
+
     }
 
-    @AfterMethod
-    public void tearDown() {
-        driverManager.quitDriver();
-    }
+//    @AfterMethod
+//    public void tearDown() {
+//        driverManager.quitDriver();
+//    }
 
 }

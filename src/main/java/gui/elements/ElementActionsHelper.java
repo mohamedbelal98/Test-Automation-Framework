@@ -25,7 +25,7 @@ public class ElementActionsHelper {
 
     /**
      * Performs a double click action on the web element located by the given By locator.
-     * Utilizes the Actions class in Selenium WebDriver to execute the double-click operation.
+     * Utilizes the Actions class in Selenium WebDriver to execute the double click operation.
      *
      * @param driver  The WebDriver instance controlling the browser.
      * @param element The By locator of the web element to be double-clicked.
@@ -36,6 +36,20 @@ public class ElementActionsHelper {
 
         Actions actions = new Actions(driver);
         actions.doubleClick(webElement).perform();
+    }
+
+    /**
+     * Clicks and holds on the specified element using Actions class in a static manner.
+     *
+     * @param driver  The WebDriver instance to perform the action.
+     * @param element The By locator of the element to click and hold.
+     */
+    public static void clickAndHold(WebDriver driver, By element) {
+
+        WebElement webElement = driver.findElement(element);
+
+        Actions actions = new Actions(driver);
+        actions.clickAndHold(webElement).perform();
     }
 
 }

@@ -37,4 +37,10 @@ public class Waits {
         webDriverWait.until(ExpectedConditions.textToBePresentInElement(element, text));
     }
 
+    public static void waitStrategyVisibility(WebDriver driver, By element, int timeInSeconds) {
+
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(timeInSeconds));
+        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(element));
+    }
+
 }

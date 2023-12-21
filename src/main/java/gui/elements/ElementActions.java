@@ -2,8 +2,12 @@ package gui.elements;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import utlis.Waits;
+
+import java.util.List;
+import java.util.Objects;
 
 public class ElementActions {
 
@@ -23,6 +27,7 @@ public class ElementActions {
      * @param element The By locator of the web element to type into.
      * @param text    The text to be typed into the element.
      * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the typing operation.
      */
     public void type(By element, String text) {
 
@@ -32,7 +37,7 @@ public class ElementActions {
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("An error occurred while trying to type : " + e.getMessage());
+            throw new RuntimeException("An error occurred while trying to type : " + e.getMessage());
         }
 
     }
@@ -43,6 +48,7 @@ public class ElementActions {
      *
      * @param element The By selector identifying the web element to click.
      * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the clicking operation.
      */
     public void click(By element) {
 
@@ -53,7 +59,7 @@ public class ElementActions {
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("This By element " + element + " is not clickable : " + e.getMessage());
+            throw new RuntimeException("This By element " + element + " is not clickable : " + e.getMessage());
         }
 
     }
@@ -65,6 +71,7 @@ public class ElementActions {
      *
      * @param element The By selector identifying the web element to clear.
      * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the clearing operation.
      */
     public void clear(By element) {
 
@@ -79,7 +86,7 @@ public class ElementActions {
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("An error occurred while trying to clear the text field : " + e.getMessage());
+            throw new RuntimeException("An error occurred while trying to clear the text field : " + e.getMessage());
         }
 
     }
@@ -90,6 +97,7 @@ public class ElementActions {
      * @param element The By selector identifying the web element to retrieve text from.
      * @return The text content of the web element or null if the element is empty or not found.
      * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the getting string operation.
      */
     public String getText(By element) {
 
@@ -104,8 +112,7 @@ public class ElementActions {
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("An error occurred while getting text : " + e.getMessage());
-            return null;
+            throw new RuntimeException("An error occurred while getting text : " + e.getMessage());
         }
 
     }
@@ -116,19 +123,17 @@ public class ElementActions {
      * @param dragElement The locator of the source element to drag.
      * @param dropElement The locator of the target element to drop onto.
      * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the drag and drop operation.
      */
     public void dragAndDrop(By dragElement, By dropElement) {
 
         try {
             ElementActionsHelper.dragAndDrop(driver, dragElement, dropElement);
         } catch (NoSuchElementException e) {
-            if (e.getMessage().contains("Unable to locate element")) {
-                throw new NoSuchElementException("Element not found : ( " + (dragElement + " or " + dropElement) + " ) Unknown Locator");
-            } else {
-                System.out.println("An error occurred while trying to drag and drop elements : " + e.getMessage());
-            }
+            throw new NoSuchElementException("Element not found : ( " + (dragElement + " or " + dropElement) + " ) Unknown Locator");
+
         } catch (Exception e) {
-            System.out.println("An unexpected error occurred : " + e.getMessage());
+            throw new RuntimeException("An error occurred while trying to drag and drop elements : " + e.getMessage());
         }
 
     }
@@ -139,15 +144,18 @@ public class ElementActions {
      *
      * @param element The By locator of the web element to be double-clicked.
      * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the double-clicking operation.
      */
     public void doubleClick(By element) {
 
         try {
+            Waits.waitToBeClickable(driver, element, 100);
+
             ElementActionsHelper.doubleClick(driver, element);
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("An error occurred while trying to double click on element : " + e.getMessage());
+            throw new RuntimeException("An error occurred while trying to double click on element : " + e.getMessage());
         }
 
     }
@@ -160,6 +168,7 @@ public class ElementActions {
      * @param attributeName The name of the attribute whose value is to be retrieved.
      * @return The value of the specified attribute, or null if the element is not found or an error occurs.
      * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the getting attribute string operation.
      */
     public String getAttribute(By element, String attributeName) {
 
@@ -168,8 +177,7 @@ public class ElementActions {
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("An error occurred while trying to get Attribute : " + e.getMessage());
-            return null;
+            throw new RuntimeException("An error occurred while trying to get Attribute : " + e.getMessage());
         }
 
     }
@@ -179,16 +187,69 @@ public class ElementActions {
      *
      * @param element The By locator of the element to click and hold.
      * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the click and hold operation.
      */
     public void clickAndHold(By element) {
 
         try {
+            Waits.waitToBeClickable(driver, element, 100);
+
             ElementActionsHelper.clickAndHold(driver, element);
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("An error occurred while trying to click and hold : " + e.getMessage());
+            throw new RuntimeException("An error occurred while trying to click and hold : " + e.getMessage());
         }
+    }
+
+    /**
+     * Scrolls the viewport to bring the specified element into view.
+     * Uses ElementActionsHelper to perform the scroll operation.
+     *
+     * @param element The By object representing the element to scroll to.
+     * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the scrolling operation.
+     */
+    public void scrollToElement(By element) {
+
+        try {
+            ElementActionsHelper.scrollToElement(driver, element);
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Element not found : " + element);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while scrolling to element : " + e.getMessage());
+        }
+
+    }
+
+    /**
+     * Selects an item from a dropdown list by its visible text using the Select class.
+     *
+     * @param elements The By object representing the dropdown element.
+     * @param text     The visible text of the item to be selected.
+     * @throws NoSuchElementException If the specified dropdown element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs while selecting the item from the options.
+     */
+    public void select(By elements, String text) {
+
+        try {
+            WebElement webElement = driver.findElement(elements);
+            var webElementsSelect = new Select(webElement);
+
+            List<WebElement> list = webElementsSelect.getOptions();
+            List<String> webElementsStringOptions = list.stream().map(WebElement::getText).toList();
+
+            for (String string : webElementsStringOptions) {
+                if (Objects.equals(string, text)) {
+                    webElementsSelect.selectByVisibleText(text);
+                }
+            }
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Element not found : " + elements);
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while selecting an item from the options : " + e.getMessage());
+        }
+
     }
 
     //******************* Keyboard Actions *******************//
@@ -198,6 +259,7 @@ public class ElementActions {
      *
      * @param element The By selector identifying the WebElement on which to perform the action.
      * @throws NoSuchElementException If the specified element is not found in the DOM.
+     * @throws RuntimeException       If an error occurs during the click enter key operation.
      */
     public void pressEnter(By element) {
 
@@ -207,7 +269,7 @@ public class ElementActions {
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Element not found : " + element);
         } catch (Exception e) {
-            System.out.println("An error occurred while trying to click enter : " + e.getMessage());
+            throw new RuntimeException("An error occurred while trying to click enter : " + e.getMessage());
         }
 
     }

@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import utlis.ReadFromJson;
 import utlis.Waits;
 
+import javax.swing.text.Utilities;
 import java.util.List;
 
 import static org.testng.Assert.*;
@@ -109,9 +110,40 @@ public class TestWebDriverUniversity {
 
     }
 
-//    @AfterMethod
-//    public void tearDown() {
-//        driverManager.quitDriver();
-//    }
+    @Test
+    public void testAjaxLoader() {
+
+        driverManager.element().scrollToElement(By.id("ajax-loader"));
+        driverManager.element().click(By.id("ajax-loader"));
+
+        driverManager.browser().switchToWindow("WebDriver | Ajax-Loader");
+
+        Waits.waitStrategyVisibility(driverManager.getDriver(), By.id("button1"), 20);
+        driverManager.element().click(By.id("button1"));
+        Waits.waitStrategyVisibility(driverManager.getDriver(),
+                By.xpath("//div[@class='modal-footer']/child::button"), 20);
+        driverManager.element().click(By.xpath("//div[@class='modal-footer']/child::button"));
+
+    }
+
+    @Test
+    public void testCheckBox() {
+
+        driverManager.element().scrollToElement(By.id("dropdown-checkboxes-radiobuttons"));
+        driverManager.element().click(By.id("dropdown-checkboxes-radiobuttons"));
+
+        driverManager.browser().switchToWindow("WebDriver | Dropdown Menu(s) | Checkboxe(s) | Radio Button(s)");
+
+        //Test select method.
+        driverManager.element().select(By.id("dropdowm-menu-1"), "SQL");
+        driverManager.element().select(By.id("dropdowm-menu-2"), "TestNG");
+        driverManager.element().select(By.id("dropdowm-menu-3"), "JavaScript");
+        driverManager.element().click(By.xpath("//input[@value='yellow']"));
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        driverManager.quitDriver();
+    }
 
 }

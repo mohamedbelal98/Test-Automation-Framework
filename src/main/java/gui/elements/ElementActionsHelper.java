@@ -1,6 +1,7 @@
 package gui.elements;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -51,5 +52,20 @@ public class ElementActionsHelper {
         Actions actions = new Actions(driver);
         actions.clickAndHold(webElement).perform();
     }
+
+    /**
+     * Scrolls the viewport to bring the specified element into view using the Actions class.
+     *
+     * @param driver  The WebDriver instance used to interact with the browser.
+     * @param element The By object representing the element to scroll to.
+     */
+    public static void scrollToElement(WebDriver driver, By element) {
+
+        WebElement webElement = driver.findElement(element);
+
+        Actions actions = new Actions(driver);
+        actions.scrollToElement(webElement).perform();
+    }
+
 
 }
